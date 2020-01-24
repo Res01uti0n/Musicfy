@@ -14,16 +14,57 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
+import { Mutation } from "react-apollo";
+import { gql } from "apollo-boost";
+import Error from "../Shared/Error";
+import axios from "axios"
+import { GET_TRACKS } from "../../pages/App";
 
 const CreateTrack = ({ classes }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [fileError, setFileError] = useState("");
 
   const handleAudioChange = (event) => {
     const selectedFile = event.target.files[0];
-    setFile(selectedFile);
+    const fileSizeLimit = 10000000;
+    if (selectedFile && selectedFile.size > fileSizeLimit) {
+      setFileError(`${selectedFile.name}: File size too large`);
+    } else {
+      setFile(selectedFile);
+      setFileError('');
+    }
+  }
+
+  const handleAudioUpload = async () => {
+    try {
+      const data = new FormData();
+      data.append('file', file);
+      data.append('resource_type', 'raw');
+      data.append('upload_preset', 'Favorite-tracks');
+      data.append('cloud_name', 'dkgjpqfz3')
+      const res = await axios.post('https://api.cloudinary.com/v1_1/dkgjpqfz3/raw/upload', data);
+      return res.data.url
+    } catch (error) {
+      console.log("Error uploading file", error);
+      setSubmitting(false);
+    }
+  }
+
+  const handleSubmit = async (event, createTrack) => {
+    event.preventDefault();
+    setSubmitting(true);
+    const uploadedUrl = await handleAudioUpload();
+    createTrack({variables: { title, description, url: uploadedUrl }});
+  }
+
+  const handleUpdateCashe = (cashe, {data: {createTrack}}) => {
+    const data = cashe.readQuery({query:GET_TRACKS})
+    const tracks = data.tracks.concat(createTrack.track)
+    cashe.writeQuery({query:GET_TRACKS, data: {tracks}})
   }
 
   return (
@@ -36,75 +77,125 @@ const CreateTrack = ({ classes }) => {
         {open ? <ClearIcon /> : <AddIcon />}
       </Fab>
 
-      <Dialog open={open} className={classes.dialog}>
-        <form>
-          <DialogTitle>Create Track</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Please, add a title, description and Audio File
-            </DialogContentText>
-            <FormControl fullWidth>
-              <TextField 
-                label="Title"
-                placeholder="Add title"
-                className={classes.textField}
-                onChange={(event)=> setTitle(event.target.value)}
-              />
-            </FormControl>
-            <FormControl fullWidth>
-              <TextField 
-                multiline
-                rows="3"
-                label="Description"
-                placeholder="Add description"
-                onChange={(event)=> setDescription(event.target.value)}
-                className={classes.textField}
-              />
-            </FormControl>
-            <FormControl fullWidth>
-              <input 
-                id="audio" 
-                type="file" 
-                className={classes.input} 
-                accept="audio/mp3, audio/wav" 
-                onChange={(event)=> handleAudioChange(event)}
-                required 
-              />
-              <label htmlFor="audio">
-                <Button 
-                  variant="outlined" 
-                  color={file ? "secondary" : "inherit"}
-                  component="span"
-                  className={classes.button}
-                  >
-                  Audio File
-                  <LibraryMusicIcon className={classes.icon} />
+      <Mutation 
+        mutation = {CREATE_TRACK_MUTATION} 
+        onCompleted={
+          (data)=>{ 
+            console.log({data});
+            setSubmitting(false); 
+            setOpen(false);
+            setTitle("");
+            setDescription("");
+            setFile("")
+          }
+        }
+        update={handleUpdateCashe}
+        >
+
+        {(createTrack, {loading, error})=>{
+        
+        if (error) {return <Error error={error} />}
+        
+        return (
+          <Dialog open={open} className={classes.dialog}>
+          <form onSubmit={(event) => handleSubmit(event, createTrack)}>
+            <DialogTitle>Create Track</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Please, add a title, description and Audio File(File size must be under 10mb)
+              </DialogContentText>
+              <FormControl fullWidth>
+                <TextField 
+                  label="Title"
+                  placeholder="Add title"
+                  className={classes.textField}
+                  onChange={(event)=> setTitle(event.target.value)}
+                  value={title}
+                />
+              </FormControl>
+              <FormControl fullWidth>
+                <TextField 
+                  multiline
+                  rows="3"
+                  label="Description"
+                  placeholder="Add description"
+                  onChange={(event)=> setDescription(event.target.value)}
+                  className={classes.textField}
+                  value={description}
+                />
+              </FormControl>
+              <FormControl error={Boolean(fileError)}>
+                <input 
+                  id="audio" 
+                  type="file" 
+                  className={classes.input} 
+                  accept="audio/mp3, audio/wav" 
+                  onChange={(event)=> handleAudioChange(event)}
+                  required 
+                />
+                <label htmlFor="audio">
+                  <Button 
+                    variant="outlined" 
+                    color={file ? "secondary" : "inherit"}
+                    component="span"
+                    className={classes.button}
+                    >
+                    Audio File
+                    <LibraryMusicIcon className={classes.icon} />
+                  </Button>
+                  {file && file.name}
+                  <FormHelperText>
+                    {fileError}
+                  </FormHelperText>
+                </label>
+              </FormControl>
+              <DialogActions>
+                <Button disabled={submitting} onClick={()=> setOpen(false)} className={classes.cancel}>
+                  Cancel
                 </Button>
-                {file && file.name}
-              </label>
-            </FormControl>
-            <DialogActions onClick={()=> setOpen(false)}>
-              <Button className={classes.cancel}>
-                Cancel
-              </Button>
-              <Button 
-                type="submit" 
-                className={classes.save}
-                disabled = {
-                  !title.trim() ||
-                  !description.trim() ||
-                  !file 
-                }
-              >
-                Add Track
-              </Button>
-            </DialogActions>
-          </DialogContent>
-        </form>
-      </Dialog>
+                <Button 
+                  type="submit" 
+                  className={classes.save}
+                  disabled = {
+                    submitting ||
+                    !title.trim() ||
+                    !description.trim() ||
+                    !file 
+                  }
+                >
+                  {
+                    submitting ? <CircularProgress className={classes.save} size={24} /> : "Add Track"
+                  }
+                </Button>
+              </DialogActions>
+            </DialogContent>
+          </form>
+        </Dialog>
+        )}}
+      </Mutation>
     </>
   );
 };
+
+const CREATE_TRACK_MUTATION = gql`
+  mutation ($title: String!, $description: String!, $url: String!){
+    createTrack(title: $title, description: $description, url: $url) {
+      track {
+        id
+        title
+        description
+        url
+        likes {
+          id
+        }
+        postedBy {
+          id
+          username
+        }
+      }
+    }
+  }
+`
 
 const styles = theme => ({
   container: {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
@@ -9,23 +9,26 @@ import Loading from "../components/Shared/Loading";
 import Error from "../components/Shared/Error";
 
 const App = ({ classes }) => {
+  const [searchResult, setSearchResult] = useState([])
+
   return (
     <div className={classes.container}>
-      <SerchTracks />
+      <SerchTracks setSearchResult={setSearchResult} />
       <CreateTrack />
       <Query query={GET_TRACKS}>
         {({data, loading, error})=> {
           if (loading) return <Loading />
           if (error) return <Error error={error}/>
-
-          return <TrackList tracks={data.tracks}/>
+          const tracks = searchResult.length > 0 ? searchResult : data.tracks
+          
+          return <TrackList tracks={tracks}/>
         }}
       </Query>
     </div>
   );
 };
 
-const GET_TRACKS = gql`
+export const GET_TRACKS = gql`
   query getTracksQuery {
     tracks {
       id
