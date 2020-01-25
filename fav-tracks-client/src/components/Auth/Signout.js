@@ -1,20 +1,22 @@
 import React from "react";
+import { ApolloConsumer } from "react-apollo";
+
 import withStyles from "@material-ui/core/styles/withStyles";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { ApolloConsumer } from "react-apollo";
 
 const Signout = ({ classes }) => {
+
   const handleSignout = (client) => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem("authToken")
     client.writeData( { data: { isLoggedIn: false} })
   }
 
   return (
     <ApolloConsumer>
       {client => (
-        <Button onClick={()=>{handleSignout(client)}}>
+        <Button variant="outlined" color="secondary" onClick={() => handleSignout(client)}>
           <Typography variant="body1" className={classes.buttonText} color="secondary">
             Signout
           </Typography>
@@ -22,17 +24,25 @@ const Signout = ({ classes }) => {
         </Button>
       )}
     </ApolloConsumer>
-  );
-};
+  )
+}
 
-const styles = {
+const styles = theme => ({
   root: {
     cursor: "pointer",
     display: "flex"
   },
   buttonIcon: {
-    marginLeft: "5px"
+    marginLeft: "5px",
+    [theme.breakpoints.down("md")]: {
+      fontSize: "10px"
+    }
+  },
+  buttonText: {
+    [theme.breakpoints.down("md")]: {
+      fontSize: "10px"
+    }
   }
-};
+})
 
-export default withStyles(styles)(Signout);
+export default withStyles(styles)(Signout)

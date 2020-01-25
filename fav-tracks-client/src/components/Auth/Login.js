@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Mutation } from "react-apollo";
+import { gql } from "apollo-boost";
+
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
@@ -7,73 +10,89 @@ import Paper from "@material-ui/core/Paper";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Button from "@material-ui/core/Button";
-import Lock from "@material-ui/icons/Lock";
-import { Mutation } from "react-apollo";
-import { gql } from "apollo-boost";
+import VpnKey from "@material-ui/icons/VpnKey";
+
 import Error from "../Shared/Error";
 
 const Login = ({ classes, setNewUser }) => {
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+
+  const [username, setUserName] = useState("")
+  const [password, setPassword] = useState("")
 
   const handleSubmit = async (event, tokenAuth, client) => {
-    event.preventDefault();
-    const res = await tokenAuth();
-    localStorage.setItem('authToken', res.data.tokenAuth.token);
-    client.writeData({ data: {isLoggedIn: true} })
+    event.preventDefault()
+    const res = await tokenAuth()
+    localStorage.setItem("authToken", res.data.tokenAuth.token)
+    client.writeData({ data: { isLoggedIn: true } })
   }
 
-  return (<div className={classes.root}>
-    <Paper className={classes.paper}>
-      <Avatar className={classes.avatar}>
-        <Lock />
-      </Avatar>
-      <Typography variant="h4" className={classes.title}>
-        Login as Existing User
-      </Typography>
-      <Mutation mutation={LOGIN_MUTATION} 
-        variables={{
-          username,  
-          password,}}
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        
+        <Avatar className={classes.avatar}>
+          <VpnKey />
+        </Avatar>
+
+        <Typography variant="h4" className={classes.title}>
+          Login as Existing User
+        </Typography>
+
+        <Mutation 
+          mutation={ LOGIN_MUTATION } 
+          variables={{
+            username,  
+            password
+          }}
         >
-        {(tokenAuth, {loading, error, called, client})=>{
-          return (
-            <form onSubmit={(event)=> {handleSubmit(event, tokenAuth, client)}} className={classes.form}>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="usename">Username</InputLabel>
-                <Input id="user" onChange={event => setUserName(event.target.value)}/>
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Password</InputLabel>
-                <Input id="password" type="password" onChange={event => setPassword(event.target.value)}/>
-              </FormControl>
-              <Button
-                className={classes.submit}
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                disabled={loading||!username.trim()||!password.trim()}
-              >
-                {loading ? "Logging in..." : "Login"}
-              </Button>
-              <Button
-                className={classes.button}
-                variant="outlined"
-                color="secondary"
-                fullWidth
-                onClick={()=> {setNewUser(true)}}
-              >
-                Register
-              </Button>
+          {(tokenAuth, { loading, error, called, client }) => {
+            return (
+              <form onSubmit={ event=> handleSubmit(event, tokenAuth, client)} className={classes.form}>
+                
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="usename">Username</InputLabel>
+                  <Input id="user" onChange={ event => setUserName(event.target.value)}/>
+                </FormControl>
+
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="password">Password</InputLabel>
+                  <Input id="password" type="password" onChange={ event => setPassword(event.target.value)}/>
+                </FormControl>
+
+                <Button
+                  className={classes.submit}
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={
+                    loading ||
+                    !username.trim() ||
+                    !password.trim()
+                  }
+                  fullWidth
+                >
+                  {loading ? "Logging in..." : "Login"}
+                </Button>
+
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  onClick={() => setNewUser(true)}
+                >
+                  Register
+                </Button>
               
-              {error && <Error error={error}/>}
-            </form>
-          )
-        }}
-      </Mutation>
-    </Paper>
-  </div>);
+                {error && <Error error={error}/>}
+
+              </form>
+            )
+          }}
+        </Mutation>
+      </Paper>
+    </div>
+  )
 };
 
 const LOGIN_MUTATION = gql`
@@ -118,7 +137,10 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2)
+  },
+  button: {
+    color: "white"
   }
-});
+})
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(Login)

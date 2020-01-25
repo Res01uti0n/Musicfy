@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -9,22 +11,26 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 import AudioPlayer from "../Shared/AudioPlayer";
 import LikeTrack from "../Track/LikeTrack";
 import UpdateTrack from "../Track/UpdateTrack";
 import DeleteTrack from "../Track/DeleteTrack";
-import { Link } from "react-router-dom";
+
 
 const TrackList = ({ classes, tracks }) => (
   <List>
-    {tracks.map((track)=> (
+    {tracks.map( track => (
       <ExpansionPanel key={track.id}>
+
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <ListItem className={classes.root}>
+
             <LikeTrack trackId={track.id} likeCount={track.likes.length}/>
+
             <ListItemText 
               primaryTypographyProps ={{
-                variant: "subtitle1",
+                variant: "h6",
                 color: "primary"
               }}
               primary={track.title} 
@@ -35,18 +41,22 @@ const TrackList = ({ classes, tracks }) => (
               }
             >
             </ListItemText>
+
             <AudioPlayer url={track.url} />
           </ListItem>
         </ExpansionPanelSummary>
+
         <ExpansionPanelDetails className={classes.details}>
           <Typography variant="body1">
             {track.description}
           </Typography>
         </ExpansionPanelDetails>
+
         <ExpansionPanelActions>
           <UpdateTrack track={track} />
           <DeleteTrack track={track} />
         </ExpansionPanelActions>
+        
       </ExpansionPanel>
     ))}
   </List>
@@ -64,9 +74,9 @@ const styles = {
     color: "#424242",
     textDecoration: "none",
     "&:hover": {
-      color: "black"
+      color: "#03a9f4"
     }
   }
-};
+}
 
-export default withStyles(styles)(TrackList);
+export default withStyles(styles)(TrackList)
