@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "2px 4px",
     margin: theme.spacing(1),
     display: "flex",
-    alignItems: "center",
+    alignItems: "center"
   },
 }));
 

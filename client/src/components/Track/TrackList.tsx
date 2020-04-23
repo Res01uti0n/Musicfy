@@ -24,6 +24,9 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexWrap: "wrap",
   },
+  list: {
+    width: "100%"
+  },
   details: {
     alignItems: "center",
   },
@@ -40,7 +43,7 @@ const TrackList = ({ tracks }: any) => {
   const classes = useStyles();
 
   return (
-    <List>
+    <List className={classes.list}>
       {tracks.map((track:any) => (
         <ExpansionPanel key={track.id}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>

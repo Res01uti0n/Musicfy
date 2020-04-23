@@ -123,14 +123,14 @@ const UpdateTrack = ({ track }: Props):any => {
     });
   };
 
-  if (error) return <Error error={error} />;
-
   return (
     isCurrentUser && (
       <>
         <IconButton color="secondary" onClick={() => setOpen(true)}>
           <EditIcon />
         </IconButton>
+
+        {error && <Error error={error} />}
 
         <Dialog open={open} className={classes.dialog}>
           <form onSubmit={(event) => handleSubmit(event, updateTrack)}>

@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "black",
   },
   form: {
     width: "100%",
@@ -65,6 +65,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: "green",
   },
   button: {
+    color: "#fff",
     marignTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
   },
@@ -108,7 +109,7 @@ const Register = ({ setNewUser }: Props) => {
           onSubmit={(event) => handleSubmit(event, createUser)}
           className={classes.form}
         >
-          <FormControl margin="normal" required fullWidth>
+          <FormControl margin="normal" color="secondary" required fullWidth>
             <InputLabel htmlFor="usename">Username</InputLabel>
             <Input
               id="user"
@@ -116,7 +117,7 @@ const Register = ({ setNewUser }: Props) => {
             />
           </FormControl>
 
-          <FormControl margin="normal" required fullWidth>
+          <FormControl margin="normal" color="secondary" required fullWidth>
             <InputLabel htmlFor="email">Email</InputLabel>
             <Input
               id="email"
@@ -125,7 +126,7 @@ const Register = ({ setNewUser }: Props) => {
             />
           </FormControl>
 
-          <FormControl margin="normal" required fullWidth>
+          <FormControl margin="normal" color="secondary" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input
               id="password"
@@ -150,7 +151,7 @@ const Register = ({ setNewUser }: Props) => {
           <Button
             className={classes.button}
             variant="contained"
-            color="primary"
+            color="secondary"
             onClick={() => setNewUser(false)}
             fullWidth
           >

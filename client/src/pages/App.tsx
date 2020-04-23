@@ -12,6 +12,9 @@ import Error from "../components/Shared/Error";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
     margin: "0 auto",
     maxWidth: 960,
     padding: theme.spacing(2),
@@ -22,15 +25,15 @@ const App = () => {
   const [searchResult, setSearchResult] = useState([]);
   const classes = useStyles();
   const { data, loading, error } = useQuery(GET_TRACKS);
-  const tracks = searchResult.length > 0 ? searchResult : data.tracks;
+  const tracks = searchResult.length > 0 ? searchResult : data && data.tracks;
 
   return (
     <div className={classes.container}>
       <SerchTracks setSearchResult={setSearchResult} />
-      <CreateTrack />
       {loading && <Loading />}
       {error && <Error error={error} />}
       {tracks && <TrackList tracks={tracks} />}
+      <CreateTrack />
     </div>
   );
 };

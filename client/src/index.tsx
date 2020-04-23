@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { ApolloProvider, useQuery } from "react-apollo";
+import { ApolloProvider, Query } from "react-apollo";
 import ApolloClient, { gql } from "apollo-boost";
 
 import * as serviceWorker from "./serviceWorker";
@@ -33,16 +33,15 @@ const IS_LOGGED_IN = gql`
   }
 `;
 
-const Main = () => {
-  const { data } = useQuery(IS_LOGGED_IN);
-
-  return (
-    <ApolloProvider client={client}>
-      {data.isLoggedIn ? <Root /> : <Auth />}
-    </ApolloProvider>
-  );
-};
-
-ReactDOM.render(<Main />, document.getElementById("root"));
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <Query query={IS_LOGGED_IN}>
+      {({ data }:any) => {
+        return data.isLoggedIn ? <Root /> : <Auth />;
+      }}
+    </Query>
+  </ApolloProvider>,
+  document.getElementById("root")
+);
 
 serviceWorker.unregister();

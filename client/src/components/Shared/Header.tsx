@@ -11,6 +11,7 @@ import MusicIcon from "@material-ui/icons/MusicNote";
 import PersonIcon from "@material-ui/icons/Person";
 
 import Signout from "../Auth/Signout";
+import SearchTracks from "../Track/SearchTracks";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -28,11 +29,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   logo: {
     marginRight: theme.spacing(1),
     fontSize: 45,
+    color: "#fff",
     [theme.breakpoints.down("md")]: {
       fontSize: 20,
     },
   },
   title: {
+    color: "#fff",
     fontSize: 25,
     [theme.breakpoints.down("md")]: {
       fontSize: 20,
@@ -70,14 +73,13 @@ const Header = ({ currentUser }: Props) => {
     <AppBar position="static" className={classes.root}>
       <Toolbar>
         <Link to="/" className={classes.grow}>
-          <MusicIcon className={classes.logo} color="secondary" />
+          <MusicIcon className={classes.logo} />
           <Typography
             className={classes.title}
             variant="h5"
-            color="secondary"
             noWrap
           >
-            Favorite Tracks
+            Musicfy
           </Typography>
         </Link>
 

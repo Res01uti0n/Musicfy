@@ -11,8 +11,9 @@ import {
   Paper,
   Typography,
   Divider,
+  Grid
 } from "@material-ui/core";
-import ThumbUpIcon from "@material-ui/icons/ThumbUpTwoTone";
+import { FavoriteTwoTone } from "@material-ui/icons";
 import AudiotrackIcon from "@material-ui/icons/AudiotrackTwoTone";
 
 import Loading from "../components/Shared/Loading";
@@ -88,57 +89,65 @@ const Profile = ({ match }: Props) => {
   if (error) return <Error error={error} />;
 
   return (
-    <div>
-      <Card className={classes.card}>
-        <CardHeader
-          avatar={
-            <Avatar className={classes.avatar}>{data.user.username[0]}</Avatar>
-          }
-          title={data.user.username}
-          subheader={`Joined ${format(
-            parseISO(data.user.dateJoined),
-            "MMM Do, yyyy"
-          )}`}
-        />
-      </Card>
+    <Grid container>
+      <Grid item xs={1}></Grid>
 
-      <Paper elevation={1} className={classes.paper}>
-        <Typography variant="h4" className={classes.title}>
-          <AudiotrackIcon className={classes.audioIcon} />
-          Created Tracks
-        </Typography>
+      <Grid item xs={2} justify="center" alignItems="center">
+        <Card className={classes.card}>
+          <CardHeader
+            avatar={
+              <Avatar className={classes.avatar}>
+                {data.user.username[0]}
+              </Avatar>
+            }
+            title={data.user.username}
+            subheader={`Joined ${format(
+              parseISO(data.user.dateJoined),
+              "MMM Do, yyyy"
+            )}`}
+          />
+        </Card>
+      </Grid>
 
-        {data.user.trackSet.map((track: Track) => (
-          <div key={track.id}>
-            <Typography>
-              {track.title} & {track.likes.length} Likes
-            </Typography>
+      <Grid item xs={9} justify="center" alignItems="center">
+        <Paper elevation={1} className={classes.paper}>
+          <Typography variant="h4" className={classes.title}>
+            <AudiotrackIcon className={classes.audioIcon} />
+            Created Tracks
+          </Typography>
 
-            <AudioPlayer url={track.url} />
-            <Divider className={classes.divider} />
-          </div>
-        ))}
-      </Paper>
+          {data.user.trackSet.map((track: Track) => (
+            <div key={track.id}>
+              <Typography>
+                {track.title} & {track.likes.length} Likes
+              </Typography>
 
-      <Paper elevation={1} className={classes.paper}>
-        <Typography variant="h4" className={classes.title}>
-          <ThumbUpIcon className={classes.thumbIcon} />
-          Liked Tracks
-        </Typography>
+              <AudioPlayer url={track.url} />
+              <Divider className={classes.divider} />
+            </div>
+          ))}
+        </Paper>
 
-        {data.user.likeSet.map(({ track }: any) => (
-          <div key={track.id}>
-            <Typography>
-              {track.title} & {track.likes.length} Likes &{" "}
-              {track.postedBy.username}
-            </Typography>
+        <Paper elevation={1} className={classes.paper}>
+          <Typography variant="h4" className={classes.title}>
+            <FavoriteTwoTone className={classes.thumbIcon} />
+            Liked Tracks
+          </Typography>
 
-            <AudioPlayer url={track.url} />
-            <Divider className={classes.divider} />
-          </div>
-        ))}
-      </Paper>
-    </div>
+          {data.user.likeSet.map(({ track }: any) => (
+            <div key={track.id}>
+              <Typography>
+                {track.title} & {track.likes.length} Likes &{" "}
+                {track.postedBy.username}
+              </Typography>
+
+              <AudioPlayer url={track.url} />
+              <Divider className={classes.divider} />
+            </div>
+          ))}
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 

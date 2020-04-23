@@ -4,7 +4,7 @@ import { gql } from "apollo-boost";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import { Favorite } from "@material-ui/icons";
 
 import { UserContext, ME } from "../../Root";
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(1),
   },
   iconButton: {
-    color: "green",
+    color: "red",
   },
 }));
 
@@ -42,7 +42,7 @@ const LikeTrack = ({ trackId, likeCount }: any) => {
       disabled={handleDisableTrack()}
     >
       {likeCount}
-      <ThumbUpIcon className={classes.icon} />
+      <Favorite className={classes.icon} />
     </IconButton>
   );
 };

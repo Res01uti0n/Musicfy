@@ -12,11 +12,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   buttonIcon: {
     marginLeft: "5px",
+    color: "#fff",
     [theme.breakpoints.down("md")]: {
       fontSize: "10px",
     },
   },
   buttonText: {
+    color: "#fff",
     [theme.breakpoints.down("md")]: {
       fontSize: "10px",
     },
@@ -35,7 +37,6 @@ const Signout = () => {
       {(client) => (
         <Button
           variant="outlined"
-          color="secondary"
           onClick={() => handleSignout(client)}
         >
           <Typography
@@ -45,7 +46,7 @@ const Signout = () => {
           >
             Signout
           </Typography>
-          <ExitToApp className={classes.buttonIcon} color="secondary" />
+          <ExitToApp className={classes.buttonIcon} />
         </Button>
       )}
     </ApolloConsumer>

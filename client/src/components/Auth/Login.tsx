@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
+    color: "white",
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
@@ -91,7 +92,7 @@ const Login = ({ setNewUser }: Props) => {
           onSubmit={(event) => handleSubmit(event, tokenAuth, client)}
           className={classes.form}
         >
-          <FormControl margin="normal" required fullWidth>
+          <FormControl margin="normal" color="secondary" required fullWidth>
             <InputLabel htmlFor="usename">Username</InputLabel>
             <Input
               id="user"
@@ -99,7 +100,7 @@ const Login = ({ setNewUser }: Props) => {
             />
           </FormControl>
 
-          <FormControl margin="normal" required fullWidth>
+          <FormControl margin="normal" color="secondary" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input
               id="password"
@@ -112,7 +113,7 @@ const Login = ({ setNewUser }: Props) => {
             className={classes.submit}
             type="submit"
             variant="contained"
-            color="primary"
+            color="secondary"
             disabled={loading || !username.trim() || !password.trim()}
             fullWidth
           >

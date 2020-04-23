@@ -25,7 +25,7 @@ import Error from "../Shared/Error";
 import { GET_TRACKS } from "../../pages/App";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  /*container: {
+  container: {
     display: "flex",
     flexWrap: "wrap",
   },
@@ -52,14 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   input: {
     display: "none",
-  },
-  fab: {
-    position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-    color: "white",
-    zIndex: "200",
-  },*/
+  }
 }));
 
 const CreateTrack = () => {
@@ -130,20 +123,15 @@ const CreateTrack = () => {
     });
   };
 
-  if (error) {
-    return <Error error={error} />;
-  }
-
   return (
     <>
-      <Fab
-        color="secondary"
-        onClick={() => setOpen(true)}
-      >
+      <Fab color="secondary" onClick={() => setOpen(true)}>
         {open ? <ClearIcon /> : <AddIcon />}
       </Fab>
 
-      <Dialog open={open}>
+      {error && <Error error={error} />}
+
+      <Dialog open={open} className={classes.dialog}>
         <form onSubmit={(event) => handleSubmit(event, createTrack)}>
           <DialogTitle>Create Track</DialogTitle>
 
@@ -157,6 +145,7 @@ const CreateTrack = () => {
               <TextField
                 label="Title"
                 placeholder="Add title"
+                className={classes.textField}
                 onChange={(event) => setTitle(event.target.value)}
                 value={title}
               />
@@ -168,6 +157,7 @@ const CreateTrack = () => {
                 rows="3"
                 label="Description"
                 placeholder="Add description"
+                className={classes.textField}
                 onChange={(event) => setDescription(event.target.value)}
                 value={description}
               />
@@ -179,6 +169,7 @@ const CreateTrack = () => {
                 type="file"
                 accept="audio/mp3, audio/wav"
                 onChange={(event) => handleAudioChange(event)}
+                className={classes.input}
                 required
               />
 
@@ -187,9 +178,10 @@ const CreateTrack = () => {
                   variant="outlined"
                   color={file ? "secondary" : "inherit"}
                   component="span"
+                  className={classes.button}
                 >
                   Audio File
-                  <LibraryMusicIcon />
+                  <LibraryMusicIcon className={classes.icon} />
                 </Button>
 
                 {file && file.name}
@@ -203,6 +195,7 @@ const CreateTrack = () => {
                 disabled={submitting}
                 onClick={() => setOpen(false)}
                 variant="outlined"
+                className={classes.cancel}
               >
                 Cancel
               </Button>
@@ -213,9 +206,10 @@ const CreateTrack = () => {
                   submitting || !title.trim() || !description.trim() || !file
                 }
                 variant="outlined"
+                className={classes.save}
               >
                 {submitting ? (
-                  <CircularProgress size={24} />
+                  <CircularProgress className={classes.cancel} size={24} />
                 ) : (
                   "Add Track"
                 )}
@@ -224,7 +218,6 @@ const CreateTrack = () => {
           </DialogContent>
         </form>
       </Dialog>
-      );
     </>
   );
 };
