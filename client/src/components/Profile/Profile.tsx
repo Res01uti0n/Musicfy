@@ -16,9 +16,9 @@ import {
 import { FavoriteTwoTone } from "@material-ui/icons";
 import AudiotrackIcon from "@material-ui/icons/AudiotrackTwoTone";
 
-import Loading from "../components/Shared/Loading";
-import Error from "../components/Shared/Error";
-import AudioPlayer from "../components/Shared/AudioPlayer";
+import Loading from "../Shared/Loading";
+import Error from "../Shared/Error";
+import AudioPlayer from "../Shared/AudioPlayer";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {

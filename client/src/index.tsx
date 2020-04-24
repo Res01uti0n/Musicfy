@@ -5,7 +5,7 @@ import ApolloClient, { gql } from "apollo-boost";
 
 import * as serviceWorker from "./serviceWorker";
 import Auth from "./components/Auth/";
-import Root from "./Root";
+import Root from "./router/Root";
 
 const client = new ApolloClient({
   uri: "http://localhost:8000/graphql/",

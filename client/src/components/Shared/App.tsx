@@ -4,11 +4,11 @@ import { useQuery } from "react-apollo";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
-import SerchTracks from "../components/Track/SearchTracks";
-import TrackList from "../components/Track/TrackList";
-import CreateTrack from "../components/Track/CreateTrack";
-import Loading from "../components/Shared/Loading";
-import Error from "../components/Shared/Error";
+import SerchTracks from "../Track/SearchTracks";
+import TrackList from "../Track/TrackList";
+import CreateTrack from "../Track/CreateTrack";
+import Loading from "../Shared/Loading";
+import Error from "../Shared/Error";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {

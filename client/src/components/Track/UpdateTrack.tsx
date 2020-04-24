@@ -21,7 +21,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 
 import Error from "../Shared/Error";
-import { UserContext } from "../../Root";
+import { UserContext } from "../../router/Root";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {

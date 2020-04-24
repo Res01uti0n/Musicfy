@@ -6,8 +6,8 @@ import IconButton from "@material-ui/core/IconButton";
 import TrashIcon from "@material-ui/icons/DeleteForeverOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { UserContext } from "../../Root";
-import { GET_TRACKS } from "../../pages/App";
+import { UserContext } from "../../router/Root";
+import { GET_TRACKS } from "../Shared/App";
 
 const useStyles = makeStyles(() => ({
   deleteButton: {

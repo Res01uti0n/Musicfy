@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 ]
 
 GRAPHENE = {
-    'SCHEMA': 'fav_tracks.schema.schema',
+    'SCHEMA': 'musicfy.schema.schema',
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
@@ -68,7 +68,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:9000'
 ]
 
-ROOT_URLCONF = 'fav_tracks.urls'
+ROOT_URLCONF = 'musicfy.urls'
 
 TEMPLATES = [
     {
@@ -86,7 +86,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'fav_tracks.wsgi.application'
+WSGI_APPLICATION = 'musicfy.wsgi.application'
 
 
 # Database

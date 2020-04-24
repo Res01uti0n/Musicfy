@@ -6,7 +6,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import { Favorite } from "@material-ui/icons";
 
-import { UserContext, ME } from "../../Root";
+import { UserContext, ME } from "../../router/Root";
 
 const useStyles = makeStyles((theme: Theme) => ({
   icon: {

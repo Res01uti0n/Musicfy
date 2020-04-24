@@ -3,12 +3,12 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import App from "./pages/App";
-import Profile from "./pages/Profile";
-import Header from "./components/Shared/Header";
-import Loading from "./components/Shared/Loading";
-import Error from "./components/Shared/Error";
-import withRoot from "./withRoot";
+import App from "../components/Shared/App";
+import Profile from "../components/Profile/Profile";
+import Header from "../components/Shared/Header";
+import Loading from "../components/Shared/Loading";
+import Error from "../components/Shared/Error";
+import withRoot from "../utils/withRoot";
 
 export const UserContext = React.createContext(null);
 

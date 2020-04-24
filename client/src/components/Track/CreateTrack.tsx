@@ -22,7 +22,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 
 import Error from "../Shared/Error";
-import { GET_TRACKS } from "../../pages/App";
+import { GET_TRACKS } from "../Shared/App";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
