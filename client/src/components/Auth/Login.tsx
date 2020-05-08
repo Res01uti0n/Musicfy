@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import { useMutation } from "react-apollo";
-import { gql } from "apollo-boost";
+import { gql, ApolloClient } from "apollo-boost";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import {
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  children?: any;
+  children?: ReactNode;
   setNewUser: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -70,7 +70,11 @@ const Login = ({ setNewUser }: Props) => {
     variables: { username, password },
   });
 
-  const handleSubmit = async (event: any, tokenAuth: any, client: any) => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+    tokenAuth: any,
+    client: ApolloClient<object>
+  ) => {
     event.preventDefault();
     const res = await tokenAuth();
     localStorage.setItem("authToken", res.data.tokenAuth.token);

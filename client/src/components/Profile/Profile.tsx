@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { useQuery } from "react-apollo";
 import { gql } from "apollo-boost";
 import { format, parseISO } from "date-fns";
@@ -11,7 +11,7 @@ import {
   Paper,
   Typography,
   Divider,
-  Grid
+  Grid,
 } from "@material-ui/core";
 import { FavoriteTwoTone } from "@material-ui/icons";
 import AudiotrackIcon from "@material-ui/icons/AudiotrackTwoTone";
@@ -65,23 +65,47 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+type TParams = {
+  params: {
+    id: number;
+  };
+};
+
 interface Props {
-  children?: any;
-  match: any;
+  children?: ReactNode;
+  match: TParams;
 }
 
 interface Track {
   id: number;
   title: string;
   url: string;
-  likes: any;
-  postedBy: any;
+  likes: [number];
+  postedBy: {
+    id: number;
+    username: string;
+  };
+}
+
+interface LikeSet {
+  id: number;
+  track: [Track];
+}
+
+interface UserRequest {
+  user: {
+    id: number;
+    username: string;
+    dateJoined: string;
+    likeSet: [LikeSet];
+    trackSet: [Track];
+  };
 }
 
 const Profile = ({ match }: Props) => {
   const id = match.params.id;
   const classes = useStyles();
-  const { data, loading, error } = useQuery(PROFILE_QUERY, {
+  const { data, loading, error } = useQuery<UserRequest>(PROFILE_QUERY, {
     variables: { id },
   });
 

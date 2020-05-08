@@ -1,8 +1,8 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import ReactPlayer from "react-player";
 
 interface Props {
-  children?: any;
+  children?: ReactNode;
   url: string;
 }
 

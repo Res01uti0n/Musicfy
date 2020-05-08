@@ -21,10 +21,25 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+interface Track {
+  id: number;
+  title: string;
+  url: string;
+  likes: [number];
+  postedBy: {
+    id: number;
+    username: string;
+  };
+}
+
+interface TracksRequest {
+  tracks: [Track]
+}
+
 const App = () => {
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState<Array<Track>>([]);
   const classes = useStyles();
-  const { data, loading, error } = useQuery(GET_TRACKS);
+  const { data, loading, error } = useQuery<TracksRequest>(GET_TRACKS);
   const tracks = searchResult.length > 0 ? searchResult : data && data.tracks;
 
   return (

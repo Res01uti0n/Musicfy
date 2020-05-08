@@ -1,17 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { 
-  AppBar,
-  Toolbar,
-  Typography 
-} from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import MusicIcon from "@material-ui/icons/MusicNote";
 import PersonIcon from "@material-ui/icons/Person";
 
 import Signout from "../Auth/Signout";
-import SearchTracks from "../Track/SearchTracks";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -61,9 +56,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+interface Me {
+  id: number;
+  username: string;
+  email: string;
+  likeSet: {
+    track: {
+      id: number;
+    };
+  };
+}
+
 interface Props {
-  children?: any;
-  currentUser: any;
+  children?: ReactNode;
+  currentUser: Me;
 }
 
 const Header = ({ currentUser }: Props) => {
@@ -74,11 +80,7 @@ const Header = ({ currentUser }: Props) => {
       <Toolbar>
         <Link to="/" className={classes.grow}>
           <MusicIcon className={classes.logo} />
-          <Typography
-            className={classes.title}
-            variant="h5"
-            noWrap
-          >
+          <Typography className={classes.title} variant="h5" noWrap>
             Musicfy
           </Typography>
         </Link>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import { useMutation } from "react-apollo";
 import { gql } from "apollo-boost";
 
@@ -74,22 +74,25 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Transition = (props: any) => <Slide direction="down" {...props} />;
 
 interface Props {
-  children?: any;
+  children?: ReactNode;
   setNewUser: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Register = ({ setNewUser }: Props) => {
-  const [username, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [open, setOpen] = useState(false);
+  const [username, setUserName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
   const classes = useStyles();
   const [createUser, { error, loading }] = useMutation(REGISTER_MUTATION, {
     variables: { username, password, email },
     onCompleted: (data) => setOpen(true),
   });
 
-  const handleSubmit = (event: any, createUser: any) => {
+  const handleSubmit = (
+    event: React.FormEvent<HTMLFormElement>,
+    createUser: any
+  ) => {
     event.preventDefault();
     createUser();
   };

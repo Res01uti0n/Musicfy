@@ -61,7 +61,7 @@ const CreateTrack = () => {
   const [description, setDescription] = useState<string>("");
   const [file, setFile] = useState<any>("");
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [fileError, setFileError] = useState("");
+  const [fileError, setFileError] = useState<string>("");
   const classes = useStyles()
 
   const handleUpdateCashe = (cashe: any, { data: { createTrack } }: any) => {
@@ -110,7 +110,7 @@ const CreateTrack = () => {
     }
   };
 
-  const handleSubmit = async (event: any, createTrack: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, createTrack: any) => {
     event.preventDefault();
     setSubmitting(true);
     const uploadedUrl = await handleAudioUpload();

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Button, Snackbar } from "@material-ui/core";
@@ -10,8 +10,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  children?: any;
-  error: any;
+  children?: ReactNode;
+  error: {
+    message: string
+  };
 }
 
 const Error = ({ error }: Props) => {

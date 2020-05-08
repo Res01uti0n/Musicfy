@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, ReactNode } from "react";
 import { useMutation } from "react-apollo";
 import { gql } from "apollo-boost";
 
@@ -17,7 +17,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const LikeTrack = ({ trackId, likeCount }: any) => {
+interface Props {
+  children?: ReactNode;
+  trackId: number
+  likeCount: number
+}
+
+const LikeTrack = ({ trackId, likeCount }: Props) => {
   const currentUser: any = useContext(UserContext);
   const classes = useStyles();
   const [createLike] = useMutation(CREATE_LIKE_MUTATION, {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, ReactNode } from "react";
 import { useMutation } from "react-apollo";
 import { gql } from "apollo-boost";
 
@@ -15,15 +15,42 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const DeleteTrack = ({ track }: any):any => {
-  const currentUser: any = useContext(UserContext);
+interface Track {
+  id: number;
+  title: string;
+  url: string;
+  likes: [number];
+  postedBy: {
+    id: number;
+    username: string;
+  };
+}
+
+interface Me {
+  id: number;
+  username: string;
+  email: string;
+  likeSet: {
+    track: {
+      id: number;
+    };
+  };
+}
+
+interface Props {
+  children?: ReactNode;
+  track: Track
+}
+
+const DeleteTrack = ({ track }: Props):any => {
+  const currentUser: Me = useContext(UserContext);
   const isCurrentUser = currentUser.id === track.postedBy.id;
   const classes = useStyles();
 
   const handleUpdateCashe = (cashe: any, { data: { deleteTrack } }: any) => {
     const data = cashe.readQuery({ query: GET_TRACKS });
     const index = data.tracks.findIndex(
-      (track: any) => Number(track.id) === deleteTrack.trackId
+      (track: Track) => Number(track.id) === deleteTrack.trackId
     );
     const tracks = [
       ...data.tracks.slice(0, index),

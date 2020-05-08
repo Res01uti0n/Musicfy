@@ -1,5 +1,6 @@
 import React from "react";
 import { ApolloConsumer } from "react-apollo";
+import { ApolloClient } from "apollo-boost"
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import ExitToApp from "@material-ui/icons/ExitToApp";
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Signout = () => {
   const classes = useStyles();
-  const handleSignout = (client:any) => {
+  const handleSignout = (client: ApolloClient<object>) => {
     localStorage.removeItem("authToken");
     client.writeData({ data: { isLoggedIn: false } });
   };
